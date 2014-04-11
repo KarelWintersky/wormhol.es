@@ -1174,25 +1174,25 @@
 		 
 		public function __construct(&$aKill, &$cKillboard) {
 			$this->url 					= $aKill->url;
-			$this->timestamp 			= $aKill->timestamp;
-			$this->internalID			= $aKill->internalID;
-			$this->externalID			= $aKill->externalID;
-			$this->victimName			= $aKill->victimName;
-			$this->victimExternalID		= $aKill->victimExternalID;
-			$this->victimCorpName		= $aKill->victimCorpName;
-			$this->victimAllianceName	= $aKill->victimAllianceName;
-			$this->victimShipName		= $aKill->victimShipName;
-			$this->victimShipClass		= $aKill->victimShipClass;
-			$this->victimShipID			= $aKill->victimShipID;
-			$this->FBPilotName			= $aKill->FBPilotName;
-			$this->FBCorpName			= $aKill->FBCorpName;
-			$this->FBAllianceName		= $aKill->FBAllianceName;
-			$this->involvedPartyCount	= $aKill->involvedPartyCount;
-			$this->solarSystemName		= $aKill->solarSystemName;
-			$this->solarSystemSecurity	= $aKill->solarSystemSecurity;
-			
+			$this->timestamp 			= $aKill->killTime;
+			$this->internalID			= $aKill->killID;
+			$this->externalID			= $aKill->killID;
+			$this->victimName			= $aKill->victim->characterName;
+			$this->victimExternalID		= $aKill->victim->characterID;
+			$this->victimCorpName		= $aKill->victim->corporationName;
+			$this->victimAllianceName	= $aKill->victim->allianceName;
+			$this->victimShipID			= $aKill->victim->shipTypeID;
+			$this->victimShipName		= $this->getShipNameForTypeID($aKill->victim->shipTypeID);
+			$this->victimShipClass		= $aKill->victim->shipTypeID;
+			$this->FBPilotName			= $aKill->attackers[0]->characterName;
+			$this->FBCorpName			= $aKill->attackers[0]->corporationName;
+			$this->FBAllianceName		= $aKill->attackers[0]->allianceName;
+			$this->involvedPartyCount	= count($aKill->attackers);
+			$this->solarSystemID		= $aKill->solarSystemID;
+			$this->solarSystemName		= getSystemName($this->solarSystemID);
+
 			// Add involved parties to the kill
-			foreach ($aKill->involved as $aInvolved) {
+			foreach ($aKill->attackers as $aInvolved) {
 				if (!$cKillboard->isNPCCorporation($aInvolved->corporationID)) {
 					$this->involved[] = new Involved($aInvolved, $this, $cKillboard);
 				}

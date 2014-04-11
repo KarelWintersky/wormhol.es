@@ -126,12 +126,18 @@
 	define("BATTLECLINIC_ALLIANCE_URL",				"http://eve.battleclinic.com/killboard/combat_record.php?type=alliance&name=%s");
 	define("EVEWHO_ALLIANCE_URL",					"http://evewho.com/alli/%s");
 	define("DOTLAN_ALLIANCE_URL",					"http://evemaps.dotlan.net/alliance/%s");
-	
+
+	/*
 	define("EVEKILL_LASTKILL_URL",					"http://eve-kill.net/epic/system:%s/mask:%s/mailLimit:10/endDate:%s/startDate:%s/orderBy:desc");
 	define("EVEKILL_ANALYSIS_URL",					"http://eve-kill.net/epic/system:%s/mask:%s/mailLimit:%d/endDate:%s/startDate:%s/orderBy:desc");
 	define("EVEKILL_INTERBUS_POCO_CHECK_URL",		"http://eve-kill.net/epic/system:%s/mask:%s/endDate:%s/startDate:%s/orderBy:desc/victimCorpExtID:1000148");
 	define("EVEKILL_CORP_KILL_HISTORY",				"http://eve-kill.net/epic/mask:%d/mailLimit:%d/combinedCorp:%s");
-	
+	*/
+	define("ZKB_LASTKILL_URL",					"http://zkillboard.com/api/solarSystemID/%s/limit/10/endTime/%s/startTime/%s/orderDirection/desc");
+	define("ZKB_ANALYSIS_URL",					"http://zkillboard.com/api/solarSystemID/%s/limit/%d/endTime/%s/startTime/%s/orderDirection/desc");
+	define("ZKB_INTERBUS_POCO_CHECK_URL",			"http://zkillboard.com/api/solarSystemID/%s/endTime/%s/startTime/%s/orderDirection/desc/corporationID/1000148");
+	define("ZKB_CORP_KILL_HISTORY",				"http://zkillboard.com/api/limit/%d/corporationID/%s");
+
 	define("MEMCACHE_STATICDATA_TIMEOUT",			5184000); /* How long data that is assumed to be static will
 															   * remain in the memcache before expiry
 															   */															

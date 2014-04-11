@@ -91,4 +91,24 @@
         return unserialize($cache);
     }
 	// -------------------------------------------------------------------------------------------------
+    //
+    function getSystemID($system) {
+		$lociiSQL = sprintf("SELECT solarSystemID FROM ".EVEDB_NAME.".mapSolarSystems WHERE UPPER(solarSystemName) LIKE UPPER('%s%%') ORDER BY solarSystemName", $system);
+		$rsLocii = mysql_query_cache($lociiSQL, false, MEMCACHE_STATICDATA_TIMEOUT, true);
+		if (is_array($rsLocii)) {
+			if (!empty($rsLocii)) {
+				return $rsLocii[0]["solarSystemID"];
+			}
+		}
+	}
+    function getSystemName($id) {
+		$lociiSQL = sprintf("SELECT solarSystemName FROM ".EVEDB_NAME.".mapSolarSystems WHERE solarSystemID=%s%%", $id);
+		$rsLocii = mysql_query_cache($lociiSQL, false, MEMCACHE_STATICDATA_TIMEOUT, true);
+		if (is_array($rsLocii)) {
+			if (!empty($rsLocii)) {
+				return $rsLocii[0]["solarSystemName"];
+			}
+		}
+	}
+
 ?>
