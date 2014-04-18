@@ -1173,7 +1173,7 @@
 		public $involved = array();
 		 
 		public function __construct(&$aKill, &$cKillboard) {
-			$this->url 					= $aKill->url;
+			$this->url 					= "https://zkillboard.com/detail/".$aKill->killID;
 			$this->timestamp 			= $aKill->killTime;
 			$this->internalID			= $aKill->killID;
 			$this->externalID			= $aKill->killID;
