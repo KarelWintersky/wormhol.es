@@ -383,8 +383,8 @@
 		$aTempWH = new Wormhole($n_LocusID);
 		if ($aTempWH->isValidLocus()) {
 			$sDate = strtotime(sprintf("%d-%d-01", date("Y"), date("m")));
-			
-			printf('<div class="iHdr" rel="%s"><a href="http://eve-kill.net/?a=system_detail&sys_name=%s" target="_blank" alt="Visit Eve-Kill for more information about %s">Eve-Kill</a></div><span class="h4">&mdash;</span><div class="iData">', 
+
+			printf('<div class="iHdr" rel="%s"><a href="https://zkillboard.com/system/%s/" target="_blank" alt="Visit zKillboard for more information about %s">zKillboard</a></div><span class="h4">&mdash;</span><div class="iData">',
 				$n_LocusID,
 				str_replace("_"," ",$n_LocusID),
 				str_replace("_"," ",$n_LocusID));
