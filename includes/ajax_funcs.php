@@ -960,6 +960,7 @@
 		printf('<div class="gName">%s</div>', $n_PilotName);
 		printf('<p class="igLinks">Contact List:<br/><a href="javascript:void(0)" onClick="CCPEVE.showInfo(1377, %d)">Show Info</a> &ndash; <a href="javascript:void(0)" onClick="javascript:CCPEVE.addContact(%d)">Add</a> &ndash; <a href="javascript:void(0)" onClick="javascript:CCPEVE.addCorpContact(%d)">Add Corp</a></p>', $n_PilotID, $n_PilotID, $n_PilotID);
 		printf('<p><a href="%s" target="_blank" alt="Eve-Kill details for %s">Eve-Kill</a></p>', sprintf(EVEKILL_PILOT_URL, $n_PilotID), $n_PilotName);
+		printf('<p><a href="%s" target="_blank" alt="zKillboard details for %s">zKillboard</a></p>', sprintf(ZKB_PILOT_URL, $n_PilotName), $n_PilotName);
 		printf('<p><a href="%s" target="_blank" alt="BattleClinic details for %s">BattleClinic</a></p>', sprintf(BATTLECLINIC_PILOT_URL, str_replace(" ","+",$n_PilotName)), $n_PilotName);
 		printf('<p><a href="%s" target="_blank" alt="EveWho details for %s">EveWho</a></p>', sprintf(EVEWHO_PILOT_URL, str_replace(" ","+",$n_PilotName)), $n_PilotName);
 		printf('<p><a href="%s" target="_blank" alt="Eve Gate page for %s">Eve-Gate</a></p>', sprintf(EVEGATE_PILOT_URL, $n_PilotName), str_replace(" ","+",$n_PilotName));
@@ -978,9 +979,11 @@
 		printf('<div class="gName">%s</div>', $n_CorpName);
 		printf('<p class="igLinks">Contact List:<br/><a href="javascript:void(0)" onClick="CCPEVE.showInfo(2, %d)">Show Info</a> &ndash; <a href="javascript:void(0)" onClick="javascript:CCPEVE.addContact(%d)">Add</a> &ndash; <a href="javascript:void(0)" onClick="javascript:CCPEVE.addCorpContact(%d)">Add Corp</a></p>', $n_CorpID, $n_CorpID, $n_CorpID);
 		printf('<p><a href="%s" target="_blank" alt="Eve-Kill details for %s">Eve-Kill</a></p>', sprintf(EVEKILL_CORP_URL, $n_CorpID), $n_CorpName);
+		printf('<p><a href="%s" target="_blank" alt="zKillboard details for %s">zKillboard</a></p>', sprintf(ZKB_CORP_URL, $n_CorpName), $n_CorpNamee);
 		printf('<p><a href="%s" target="_blank" alt="BattleClinic details for %s">BattleClinic</a></p>', sprintf(BATTLECLINIC_CORP_URL, str_replace(" ","+",$n_CorpName)), $n_CorpName);
 		printf('<p><a href="%s" target="_blank" alt="EveWho details for %s">EveWho</a></p>', sprintf(EVEWHO_CORP_URL, str_replace(" ","+",$n_CorpName)), $n_CorpName);
 		printf('<p><a href="%s" target="_blank" alt="Dotlan details for %s">Dotlan</a></p>', sprintf(DOTLAN_CORP_URL, str_replace(" ","_",$n_CorpName)), $n_CorpName);
+		printf('<p><a href="%s" target="_blank" alt="EVE Census details for %s">EVE Census</a></p>', sprintf(EVECENSUS_CORP_URL, str_replace(" ","%20",$n_CorpName)), $n_CorpName);
 		printf('</div>');
 		printf('</div>');
 	// ========================================================================
@@ -996,9 +999,11 @@
 		printf('<div class="gName">%s</div>', $n_AllianceName);
 		printf('<p class="igLinks">Contact List:<br/><a href="javascript:void(0)" onClick="CCPEVE.showInfo(16159, %d)">Show Info</a> &ndash; <a href="javascript:void(0)" onClick="javascript:CCPEVE.addContact(%d)">Add</a> &ndash; <a href="javascript:void(0)" onClick="javascript:CCPEVE.addCorpContact(%d)">Add Corp</a></p>', $n_AllianceID, $n_AllianceID, $n_AllianceID);
 		printf('<p><a href="%s" target="_blank" alt="Eve-Kill details for %s">Eve-Kill</a></p>', sprintf(EVEKILL_ALLIANCE_URL, $n_AllianceID), $n_AllianceName);
+		printf('<p><a href="%s" target="_blank" alt="zKillboard details for %s">zKillboard</a></p>', sprintf(ZKB_ALLIANCE_URL, $n_AllianceName), $n_AllianceName);
 		printf('<p><a href="%s" target="_blank" alt="BattleClinic details for %s">BattleClinic</a></p>', sprintf(BATTLECLINIC_ALLIANCE_URL, str_replace(" ","+",$n_AllianceName)), $n_AllianceName);
 		printf('<p><a href="%s" target="_blank" alt="EveWho details for %s">EveWho</a></p>', sprintf(EVEWHO_ALLIANCE_URL, str_replace(" ","+",$n_AllianceName)), $n_AllianceName);
 		printf('<p><a href="%s" target="_blank" alt="Dotlan details for %s">Dotlan</a></p>', sprintf(DOTLAN_ALLIANCE_URL, str_replace(" ","_",$n_AllianceName)), $n_AllianceName);
+		printf('<p><a href="%s" target="_blank" alt="EVE Census details for %s">EVE Census</a></p>', sprintf(EVECENSUS_ALLIANCE_URL, str_replace(" ","%20",$n_AllianceName)), $n_AllianceName);
 		printf('</div>');
 		printf('</div>');
 	// ========================================================================
