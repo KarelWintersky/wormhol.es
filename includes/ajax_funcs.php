@@ -388,9 +388,9 @@
 				$n_LocusID,
 				str_replace("_"," ",$n_LocusID),
 				str_replace("_"," ",$n_LocusID));
-	
-			$aKillboard = new Killboard($n_LocusID, "lastkill", EVEKILL_CACHE_LIFETIME_LASTKILL, sprintf(EVEKILL_LASTKILL_URL, urlencode($n_LocusID), EVEKILL_EPIC_MASK, sprintf("%s_23.59.59", date("Y-m-t")), sprintf("%s_00.00.00", date("Y-m-d", $sDate))), CACHE_USE_CACHE_REFRESH_IF_EXPIRED, false);
-			
+
+			$aKillboard = new Killboard($n_LocusID, "lastkill", EVEKILL_CACHE_LIFETIME_LASTKILL, sprintf(ZKB_LASTKILL_URL, getSystemID(urlencode($n_LocusID)), sprintf("%s2359", date("Ymd")), sprintf("%s0000", date("Ymd", $sDate))), CACHE_USE_CACHE_REFRESH_IF_EXPIRED, false);
+
 			if ($aKillboard->isValidKB()) {
 				$lastKill = $aKillboard->res_metrics["newestKill"];
 				if (!is_null($lastKill)) {
@@ -436,9 +436,9 @@
 			$sDate = strtotime(sprintf("%d-%d-01", date("Y"), date("m")));
 			
 			printf('<div class="iHdr" rel="%s">Intel</div><span class="h4">&mdash;</span><div class="iData">', $n_LocusID);
-					
-			$aKillboard = new Killboard($n_LocusID, "analysis", EVEKILL_CACHE_LIFETIME_ANALYSIS, sprintf(EVEKILL_ANALYSIS_URL, urlencode($n_LocusID), EVEKILL_EPIC_MASK, EVEKILL_KILL_COUNT_FOR_INTEL, sprintf("%s_23.59.59", date("Y-m-t")), sprintf("%s_00.00.00", date("Y-m-d", $sDate))), CACHE_USE_CACHE_UPDATE_NEW_DATA, true);
-			
+
+			$aKillboard = new Killboard($n_LocusID, "analysis", EVEKILL_CACHE_LIFETIME_ANALYSIS, sprintf(ZKB_ANALYSIS_URL, getSystemID(urlencode($n_LocusID)), EVEKILL_KILL_COUNT_FOR_INTEL, sprintf("%s2359", date("Ymd")), sprintf("%s0000", date("Ymd", $sDate))), CACHE_USE_CACHE_UPDATE_NEW_DATA, true);
+
 			if ($aKillboard->isValidKB()) {
 				if ($aTempWH->isWHLocus()) {		
 					
