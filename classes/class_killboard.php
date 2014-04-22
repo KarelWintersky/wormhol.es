@@ -257,9 +257,17 @@
 						$mChkCnt = 0;
 						$ekData = array();
 						do {
+							$foundSDate = preg_match('@startTime\/(\d{12})@', $kbURL, $sDate);
+							$foundEDate = preg_match('@endTime\/(\d{12})@', $kbURL, $eDate);
+							if ($foundSDate !== 1 || $foundEDate !== 1) break;
+
+							$kbURL = str_ireplace('/startTime/' . $sDate[1], '/startTime/' . date("Ym010000", strtotime("-12 month", convEKD2Pts($sDate[1]))), $kbURL);
+							$kbURL = str_ireplace('/endTime/' . $eDate[1], '/endTime/' . date("Ymt2359"), $kbURL);
+							dprintf("rewrote url to %s", $kbURL);
+
 							dprintf("[m: %d] EVE API URL: %s", $mChkCnt, $kbURL);
 
-							//dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
+							dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
 							$ekScrape = file_get_contents($kbURL, false, $this->ctx);
 							if ($ekScrape !== false) {
 								$ekData = array_merge($ekData,json_decode($ekScrape));
@@ -273,13 +281,7 @@
 							// Increment failsafe loop breaker
 							$mChkCnt = $mChkCnt + 12;
 
-							$foundSDate = preg_match('@startTime\/(\d{12})@', $kbURL, $sDate);
-							$foundEDate = preg_match('@endTime\/(\d{12})@', $kbURL, $eDate);
-							if ($foundSDate !== 1 || $foundEDate !== 1) break;
 
-							$kbURL = str_ireplace('/startTime/' . $sDate[1], '/startTime/' . date("Ym010000", strtotime("-12 month", convEKD2Pts($sDate[1]))), $kbURL);
-							$kbURL = str_ireplace('/endTime/' . $eDate[1], '/endTime/' . date("Ymt2359"), $kbURL);
-							dprintf("rewrote url to %s", $kbURL);
 						} while (sizeof($ekData) < intval($sMailLimit) && $mChkCnt <= EVEKILL_ANALYSIS_MAX_MONTH_HISTORY);
 					} catch (Exception $e) {
 						// Problem occured querying Eve Kill, so bomb out
