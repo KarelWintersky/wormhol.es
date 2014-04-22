@@ -119,6 +119,7 @@ $(document).ready(function(){
 		$("#intelBox DIV.intelItem").each(function() {
 			if ($("DIV.intelNav",this).length == 0) {
 				var locusID = $(this).attr('id').substr(3);
+				var this_server = ""+window.location.protocol+"//"+window.location.host+"/";
 				$(this).prepend('<div id="in_'+locusID+'" class="intelNav"><div class="iClose"><a href="#" title="Click to minimise">&ndash;</a></div><div class="iCopy"><a href="javascript:void(0)" rel="syslink"><img src="/images/clipboard.png" width="25" height="25" border="0" alt="Copy link"/></a></div></div>');
 				$("DIV#in_"+locusID+" DIV > A[title]").qtip({
 					position: {
@@ -136,7 +137,7 @@ $(document).ready(function(){
 					}
 				});
 				$("DIV#in_"+locusID+" DIV > A[rel=syslink]").qtip({
-					content: { text: '<p style="margin-bottom: 3px">Copy link below to share:</p><p><a href="http://wormhol.es/'+locusID+'">http://wormhol.es/'+locusID+'</a></p>' },
+					content: { text: '<p style="margin-bottom: 3px">Copy link below to share:</p><p><a href="'+this_server+locusID+'">'+this_server+locusID+'</a></p>' },
 					position: {
 						at: 'top left', 		// Position the tooltip above the link
 						my: 'bottom right',

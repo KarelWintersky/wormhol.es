@@ -57,7 +57,7 @@
 	
 	define("EVEKILL_SOCKET_TIMEOUT_SECONDS",		15);
 	define("EVEKILL_KILL_COUNT_FOR_INTEL",			1000);
-	define("EVEKILL_ANALYSIS_MAX_MONTH_HISTORY",	12);
+	define("EVEKILL_ANALYSIS_MAX_MONTH_HISTORY",	11);
 	define("EVEKILL_ANALYSIS_MAX_KILLS_PER_MONTH",	100);		/* Default maximum kills recorded per month (for diversity).  This should never be lower than EVEKILL_KILL_COUNT_FOR_INTEL / EVEKILL_ANALYSIS_MAX_KILLS_PER_MONTH */
 	define("EVEKILL_EPIC_MASK",						655359);
 	
