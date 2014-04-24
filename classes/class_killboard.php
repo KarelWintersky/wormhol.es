@@ -254,9 +254,13 @@
 					// We don't have a cache file, so we have to poll Eve-Kill then create one
 					set_error_handler("eve_api_warning_catcher", E_WARNING);
 					try {
-						$mChkCnt = 0;
+						$page = 1;
 						$ekData = array();
+						$data = array();
+						$storedkbURL = $kbURL;
 						do {
+							$kbURL = $storedkbURL;
+							$kbURL = $kbURL."page/".$page."/";
 							$foundSDate = preg_match('@startTime\/(\d{12})@', $kbURL, $sDate);
 							$foundEDate = preg_match('@endTime\/(\d{12})@', $kbURL, $eDate);
 							if ($foundSDate !== 1 || $foundEDate !== 1) break;
@@ -269,8 +273,9 @@
 
 							dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
 							$ekScrape = file_get_contents($kbURL, false, $this->ctx);
+							$data = json_decode($ekScrape);
 							if ($ekScrape !== false) {
-								$ekData = array_merge($ekData,json_decode($ekScrape));
+								$ekData = array_merge($ekData, $data);
 							} else {
 								// Eve-Kill API/website returned something we can't use, assume
 								// it's broken
@@ -278,11 +283,11 @@
 								return null;
 							}
 
-							// Increment failsafe loop breaker
-							$mChkCnt = $mChkCnt + 12;
+							// Go to the next page
+							$page = $page + 1;
 
 
-						} while (sizeof($ekData) < intval($sMailLimit) && $mChkCnt <= EVEKILL_ANALYSIS_MAX_MONTH_HISTORY);
+						} while (sizeof($ekData) < intval($sMailLimit) && (sizeof($data) == 200) && ($page < 11));
 					} catch (Exception $e) {
 						// Problem occured querying Eve Kill, so bomb out
 						printf('<p><span class="advisoryBad">Error: Unable to update kill data from EVE KILL - error reported %s.</span></p>', $e->getMessage());
