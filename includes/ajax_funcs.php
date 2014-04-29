@@ -688,7 +688,7 @@
 					} else {
 						// We have no residents, assume unoccupied
 						dprintf('residency: std dev for system: %f (threshold: %f)', $aKillboard->corp[0]->residency["stddev"], SCORE_RES_STDDEV_TOO_LOW_THRESHOLD);
-						printf('<p>%s<span class="advisory2">System may be unoccupied or contested<span class="h4">&ndash;</span>%d seperate corporations have had %d isolated battles over a period of %d days.</span></p>', ICON_VACATED_IMAGE, sizeof($aKillboard->corp), $aKillboard->res_metrics["battleCount"], ((strtotime($aKillboard->res_metrics["newestKill"]->timestamp) - strtotime($aKillboard->res_metrics["oldestKill"]->timestamp)) / 60 / 60 / 24));
+						printf('<p>%s<span class="advisory2">System may be unoccupied or contested<span class="h4">&ndash;</span>%d separate corporations have had %d isolated battles over a period of %d days.</span></p>', ICON_VACATED_IMAGE, sizeof($aKillboard->corp), $aKillboard->res_metrics["battleCount"], ((strtotime($aKillboard->res_metrics["newestKill"]->timestamp) - strtotime($aKillboard->res_metrics["oldestKill"]->timestamp)) / 60 / 60 / 24));
 					}
 					
 					$evicteeDB = array();

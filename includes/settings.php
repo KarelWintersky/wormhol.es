@@ -63,7 +63,7 @@
 	
 	define("EVEKILL_EVICTION_INACTIVE_MONTHS",		3);
 	
-	define("EVEKILL_SECS_ELAPSED_ASSUME_NEW_BATTLE",86400);		/* Number of seconds between kills that if exceeded assumes is a seperate & new battle */
+	define("EVEKILL_SECS_ELAPSED_ASSUME_NEW_BATTLE",86400);		/* Number of seconds between kills that if exceeded assumes is a separate & new battle */
 	
 	define("EVEKILL_MAX_SHIP_CLASSES_TO_SHOW"		,3);		/* Max number of ship classes to show */
 
