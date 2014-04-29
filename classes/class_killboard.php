@@ -260,7 +260,7 @@
 						$storedkbURL = $kbURL;
 						do {
 							$kbURL = $storedkbURL;
-							$kbURL = $kbURL."page/".$page."/";
+							$kbURL = $kbURL."/page/".$page."/";
 							$foundSDate = preg_match('@startTime\/(\d{12})@', $kbURL, $sDate);
 							$foundEDate = preg_match('@endTime\/(\d{12})@', $kbURL, $eDate);
 							if ($foundSDate !== 1 || $foundEDate !== 1) break;
