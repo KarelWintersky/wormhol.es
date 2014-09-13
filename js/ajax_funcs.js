@@ -55,7 +55,7 @@ function ccpShowTrustWindow() {
 	// called outside of the IGB, but for the sake of completeness we do a sanity
 	// check on the call.
 	try {
-		CCPEVE.requestTrust('http://wormhol.es/');
+		CCPEVE.requestTrust(""+window.location.protocol+"//"+window.location.hostname+"/");
 		return true;
 	} catch (err) {
 		return false;

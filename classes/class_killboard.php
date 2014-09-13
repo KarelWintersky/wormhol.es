@@ -168,13 +168,14 @@
 							if (strtotime("+".$kbCacheTime." seconds", strtotime($firstKill->timestamp)) < time()) {
 								// Replace the timestamps in the URL to begin at the oldest kill
 								// NOTE: THIS WILL MEAN WE WILL GET AT LEAST ONE DUPE WE HAVE TO REMOVE
-
-								$foundSDate = preg_match('/startDate:(\d{4}-\d{2}-\d{2}_\d{2}.\d{2}.\d{2})/', $kbURL, $sDate);
-								$foundEDate = preg_match('/endDate:(\d{4}-\d{2}-\d{2}_\d{2}.\d{2}.\d{2})/', $kbURL, $eDate);
+								$foundSDate = preg_match('@startTime\/(\d{12})@', $kbURL, $sDate);
+								$foundEDate = preg_match('@endTime\/(\d{12})@', $kbURL, $eDate);
 								if ($foundSDate !== 1 || $foundEDate !== 1) return false;
-								$kbURL = str_ireplace('/startDate:' . $sDate[1], '/startDate:' . date("Y-m-d_H.i.s", strtotime($firstKill->timestamp)), $kbURL);
-								$kbURL = str_ireplace('/endDate:' . $eDate[1], '/endDate:' . date("Y-m-t_23:59:59", strtotime($firstKill->timestamp)), $kbURL);
+								$kbURL = str_ireplace('/startTime/' . $sDate[1], '/endTime/' . date("YmdHi", strtotime($firstKill->timestamp)), $kbURL);
+								$kbURL = str_ireplace('/endTime/' . $eDate[1], '/endTime/' . date("Ymt2359", strtotime($firstKill->timestamp)), $kbURL);
 
+								dprintf("first KM had the timestamp %s",$firstKill->timestamp);
+								dprintf("Rewrote url to %s", $kbURL);
 								// Update temporary cache
 								set_error_handler("eve_api_warning_catcher", E_WARNING);
 								try {
@@ -251,32 +252,39 @@
 					// We don't have a cache file, so we have to poll Eve-Kill then create one
 					set_error_handler("eve_api_warning_catcher", E_WARNING);
 					try {
-						$mChkCnt = 0;
+						$page = 1;
 						$ekData = array();
+						$data = array();
+						$storedkbURL = $kbURL;
 						do {
+							$kbURL = $storedkbURL;
+							$kbURL = $kbURL."/page/".$page."/";
+							$foundSDate = preg_match('@startTime\/(\d{12})@', $kbURL, $sDate);
+							$foundEDate = preg_match('@endTime\/(\d{12})@', $kbURL, $eDate);
+							if ($foundSDate !== 1 || $foundEDate !== 1) break;
+
+							$kbURL = str_ireplace('/startTime/' . $sDate[1], '/startTime/' . date("Ym010000", strtotime("-12 month", convEKD2Pts($sDate[1]))), $kbURL);
+							$kbURL = str_ireplace('/endTime/' . $eDate[1], '/endTime/' . date("Ymt2359"), $kbURL);
+							dprintf("rewrote url to %s", $kbURL);
+
 							dprintf("[m: %d] EVE API URL: %s", $mChkCnt, $kbURL);
 
-							//dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
+							dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
 							$ekScrape = file_get_contents($kbURL, false, $this->ctx);
+							$data = json_decode($ekScrape);
 							if ($ekScrape !== false) {
-								$ekData = array_merge($ekData,json_decode($ekScrape));
+								$ekData = array_merge($ekData, $data);
 							} else {
 								// Eve-Kill API/website returned something we can't use, assume
 								// it's broken
 								restore_error_handler();
 								return null;
 							}
+							// Go to the next page
+							$page = $page + 1;
 
-							// Increment failsafe loop breaker
-							$mChkCnt++;
 
-							$foundSDate = preg_match('/startDate:(\d{4}-\d{2}-\d{2}_\d{2}.\d{2}.\d{2})/', $kbURL, $sDate);
-							$foundEDate = preg_match('/endDate:(\d{4}-\d{2}-\d{2}_\d{2}.\d{2}.\d{2})/', $kbURL, $eDate);
-							if ($foundSDate !== 1 || $foundEDate !== 1) break;
-
-							$kbURL = str_ireplace('/startDate:' . $sDate[1], '/startDate:' . date("Y-m-01_00.00.00", strtotime("-1 month", convEKD2Pts($sDate[1]))), $kbURL);
-							$kbURL = str_ireplace('/endDate:' . $eDate[1], '/endDate:' . date("Y-m-t_23:59:59", strtotime("-1 month", convEKD2Pts($sDate[1]))), $kbURL);
-						} while (sizeof($ekData) < intval($sMailLimit) && $mChkCnt <= EVEKILL_ANALYSIS_MAX_MONTH_HISTORY);
+						} while (sizeof($ekData) < intval($sMailLimit) && (sizeof($data) == 200) && ($page < 11));
 					} catch (Exception $e) {
 						// Problem occured querying Eve Kill, so bomb out
 						printf('<p><span class="advisoryBad">Error: Unable to update kill data from EVE KILL - error reported %s.</span></p>', $e->getMessage());
@@ -947,7 +955,11 @@
 				$resStdDev = sd($rsAry);
 				foreach ($this->corp as $aCorp) {
 					$aCorp->residency["stddev"] = $resStdDev;
-					$aCorp->residency["z-score"] = ($aCorp->residency["score"] - ($this->res_metrics["totalScore"] / sizeof($this->corp))) / $aCorp->residency["stddev"];
+					if ($aCorp->residency["stddev"]>0) {
+						$aCorp->residency["z-score"] = ($aCorp->residency["score"] - ($this->res_metrics["totalScore"] / sizeof($this->corp))) / $aCorp->residency["stddev"];
+					} else {
+						$aCorp->residency["z-score"] = 0;
+					}
 					$aCorp->residency["z-perc"] = cdf($aCorp->residency["z-score"]) * 100;
 				}
 

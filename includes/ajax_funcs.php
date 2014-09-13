@@ -383,8 +383,8 @@
 		$aTempWH = new Wormhole($n_LocusID);
 		if ($aTempWH->isValidLocus()) {
 			$sDate = strtotime(sprintf("%d-%d-01", date("Y"), date("m")));
-			
-			printf('<div class="iHdr" rel="%s"><a href="http://eve-kill.net/?a=system_detail&sys_name=%s" target="_blank" alt="Visit Eve-Kill for more information about %s">Eve-Kill</a></div><span class="h4">&mdash;</span><div class="iData">', 
+
+			printf('<div class="iHdr" rel="%s"><a href="https://zkillboard.com/system/%s/" target="_blank" alt="Visit zKillboard for more information about %s">zKillboard</a></div><span class="h4">&mdash;</span><div class="iData">',
 				$n_LocusID,
 				str_replace("_"," ",$n_LocusID),
 				str_replace("_"," ",$n_LocusID));
@@ -688,7 +688,7 @@
 					} else {
 						// We have no residents, assume unoccupied
 						dprintf('residency: std dev for system: %f (threshold: %f)', $aKillboard->corp[0]->residency["stddev"], SCORE_RES_STDDEV_TOO_LOW_THRESHOLD);
-						printf('<p>%s<span class="advisory2">System may be unoccupied or contested<span class="h4">&ndash;</span>%d seperate corporations have had %d isolated battles over a period of %d days.</span></p>', ICON_VACATED_IMAGE, sizeof($aKillboard->corp), $aKillboard->res_metrics["battleCount"], ((strtotime($aKillboard->res_metrics["newestKill"]->timestamp) - strtotime($aKillboard->res_metrics["oldestKill"]->timestamp)) / 60 / 60 / 24));
+						printf('<p>%s<span class="advisory2">System may be unoccupied or contested<span class="h4">&ndash;</span>%d separate corporations have had %d isolated battles over a period of %d days.</span></p>', ICON_VACATED_IMAGE, sizeof($aKillboard->corp), $aKillboard->res_metrics["battleCount"], ((strtotime($aKillboard->res_metrics["newestKill"]->timestamp) - strtotime($aKillboard->res_metrics["oldestKill"]->timestamp)) / 60 / 60 / 24));
 					}
 					
 					$evicteeDB = array();
