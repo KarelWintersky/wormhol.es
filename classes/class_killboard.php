@@ -1459,7 +1459,8 @@
                                 "Accept-Encoding: gzip,deflate,sdchrn" .
                                 "Accept-Charset:UTF-8,*;q=0.5rn" .
                                 "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0 FirePHP/0.4rn",
-                    'http' => array('timeout' => EVEKILL_SOCKET_TIMEOUT_SECONDS, 'ignore_errors' => true)
+                    'timeout' => EVEKILL_SOCKET_TIMEOUT_SECONDS, 
+                    'ignore_errors' => true
                 )
             );
 
