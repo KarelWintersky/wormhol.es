@@ -1462,6 +1462,7 @@
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (linux x86_64) en-GB) wormhol.es-zkb/1.1');
             dprintf("Executing curl command");
+            $data = curl_exec($ch);
             curl_close($ch);
             return $data;
         }
