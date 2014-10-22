@@ -1452,7 +1452,6 @@
 	}
         
         function file_get_contents_gzip($url) {
-            //user agent is very necessary, otherwise some websites like google.com wont give zipped content
             $opts = array(
                 'http'=>array(
                     'method'=>"GET",
@@ -1466,12 +1465,10 @@
             $context = stream_context_create($opts);
             $content = file_get_contents($url ,false,$context); 
 
-            //If http response header mentions that content is gzipped, then uncompress it
             foreach($http_response_header as $c => $h)
             {
                 if(stristr($h, 'content-encoding') and stristr($h, 'gzip'))
                 {
-                    //Now lets uncompress the compressed data
                     $content = gzinflate( substr($content,10,-8) );
                 }
             }
