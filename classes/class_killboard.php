@@ -1455,12 +1455,16 @@
             dprintf("trying to get deflated ".$url);
             $ch = curl_init();
             $timeout = 10;
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            curl_setopt($ch, CURLOPT_ENCODING , "gzip");
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (linux x86_64) en-GB) wormhol.es-zkb/1.1');
+            $options = array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_CONNECTTIMEOUT => $timeout,
+                CURLOPT_ENCODING => "gzip",
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_USERAGENT => 'Mozilla/5.0 (linux x86_64) en-GB; wormhol.es-zkb/1.1'
+
+            );
+            curl_setopt_array($ch, $options);
             dprintf("Executing curl command");
             $data = curl_exec($ch);
             curl_close($ch);
