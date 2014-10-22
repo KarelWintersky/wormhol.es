@@ -184,7 +184,7 @@
 									dprintf('scrapeEveKill(): starting partial refresh loop');
 									do {
 										dprintf("[m: %d] EVE API URL: %s", $mChkCnt, $kbURL);
-										$ncScrape = file_get_contents_gzip($kbURL, false, $this->ctx);
+										$ncScrape = file_get_contents_gzip($kbURL);
 										// Note: we update in reverse order to the way we want to store
 										if ($ncScrape !== false) {
 											$ekNewData = array_merge(json_decode($ncScrape),$ekNewData);
@@ -270,7 +270,7 @@
 							dprintf("[m: %d] EVE API URL: %s", $mChkCnt, $kbURL);
 
 							dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
-							$ekScrape = file_get_contents_gzip($kbURL, false, $this->ctx);
+							$ekScrape = file_get_contents_gzip($kbURL);
 							$data = json_decode($ekScrape);
 							if ($ekScrape !== false) {
 								$ekData = array_merge($ekData, $data);
@@ -1458,7 +1458,8 @@
                     'header'=>"Accept-Language: en-US,en;q=0.8rn" .
                                 "Accept-Encoding: gzip,deflate,sdchrn" .
                                 "Accept-Charset:UTF-8,*;q=0.5rn" .
-                                "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0 FirePHP/0.4rn"
+                                "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0 FirePHP/0.4rn",
+                    'http' => array('timeout' => EVEKILL_SOCKET_TIMEOUT_SECONDS, 'ignore_errors' => true)
                 )
             );
 
