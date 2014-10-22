@@ -1,4 +1,4 @@
-<?
+<?php
 	ini_set('set_time_limit',120);
 	ini_set('max_execution_time',120);
 	ini_set('memory_limit','256M');
@@ -184,7 +184,7 @@
 									dprintf('scrapeEveKill(): starting partial refresh loop');
 									do {
 										dprintf("[m: %d] EVE API URL: %s", $mChkCnt, $kbURL);
-										$ncScrape = file_get_contents($kbURL, false, $this->ctx);
+										$ncScrape = file_get_contents_gzip($kbURL, false, $this->ctx);
 										// Note: we update in reverse order to the way we want to store
 										if ($ncScrape !== false) {
 											$ekNewData = array_merge(json_decode($ncScrape),$ekNewData);
@@ -270,7 +270,7 @@
 							dprintf("[m: %d] EVE API URL: %s", $mChkCnt, $kbURL);
 
 							dprintf("scrapeEveKill(): Fetching from URL: %s", $kbURL);
-							$ekScrape = file_get_contents($kbURL, false, $this->ctx);
+							$ekScrape = file_get_contents_gzip($kbURL, false, $this->ctx);
 							$data = json_decode($ekScrape);
 							if ($ekScrape !== false) {
 								$ekData = array_merge($ekData, $data);
@@ -451,7 +451,7 @@
 				}
 			}
 		}
-
+                
 		// A simple function that returns an array of corporations
 		public function getInvolvedCorpsOnKill($aKill) {
 			$aryKillers = null;
@@ -1450,7 +1450,35 @@
                 return (1 + erf($n / sqrt(2)))/2;
         }
 	}
+        
+        function file_get_contents_gzip($url) {
+            //user agent is very necessary, otherwise some websites like google.com wont give zipped content
+            $opts = array(
+                'http'=>array(
+                    'method'=>"GET",
+                    'header'=>"Accept-Language: en-US,en;q=0.8rn" .
+                                "Accept-Encoding: gzip,deflate,sdchrn" .
+                                "Accept-Charset:UTF-8,*;q=0.5rn" .
+                                "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0 FirePHP/0.4rn"
+                )
+            );
 
+            $context = stream_context_create($opts);
+            $content = file_get_contents($url ,false,$context); 
+
+            //If http response header mentions that content is gzipped, then uncompress it
+            foreach($http_response_header as $c => $h)
+            {
+                if(stristr($h, 'content-encoding') and stristr($h, 'gzip'))
+                {
+                    //Now lets uncompress the compressed data
+                    $content = gzinflate( substr($content,10,-8) );
+                }
+            }
+
+            return $content;
+        }
+        
 	function convEKD2Pts($dateStr) {
 		// Convert Eve-Kill date to PHP date - takes a date formatted as "Y-m-d_H.i.s" and converts it to
 		// timestamp
