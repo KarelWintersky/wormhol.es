@@ -451,7 +451,7 @@
 				}
 			}
 		}
-                
+
 		// A simple function that returns an array of corporations
 		public function getInvolvedCorpsOnKill($aKill) {
 			$aryKillers = null;
@@ -1450,19 +1450,17 @@
                 return (1 + erf($n / sqrt(2)))/2;
         }
 	}
-        
+
         function file_get_contents_gzip($url) {
-            dprintf("trying to get deflated ".$url);
+            dprintf("trying to get url contents at ".$url);
             $ch = curl_init();
-            $timeout = 10;
             $options = array(
                 CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_CONNECTTIMEOUT => $timeout,
+                CURLOPT_CONNECTTIMEOUT => EVEKILL_SOCKET_TIMEOUT_SECONDS,
                 CURLOPT_ENCODING => "gzip",
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_USERAGENT => 'Mozilla/5.0 (linux x86_64) en-GB; wormhol.es-zkb/1.1'
-
             );
             curl_setopt_array($ch, $options);
             dprintf("Executing curl command");
@@ -1470,7 +1468,7 @@
             curl_close($ch);
             return $data;
         }
-        
+
 	function convEKD2Pts($dateStr) {
 		// Convert Eve-Kill date to PHP date - takes a date formatted as "Y-m-d_H.i.s" and converts it to
 		// timestamp
